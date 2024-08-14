@@ -1,0 +1,112 @@
+<ReportExportWidget>:
+    from_date: from_date_input
+    to_date: to_date_input
+    pdf_checkbox: pdf_checkbox_input
+    excel_checkbox: excel_checkbox_input
+    status_label: status_label_output
+    orientation: 'vertical'
+    padding: 20
+    spacing: 20
+
+    MDLabel:
+        text: "[b]Export Report[/b]" 
+        halign: "center"
+        font_size: "25sp"
+        markup: True
+
+    MDLabel:
+        text: "From Date:"
+    MDTextField:
+        id: from_date_input
+        hint_text: "Enter from date (YYYY-MM-DD)"
+        on_focus: if self.focus: root.show_date_picker(self)
+
+    MDLabel:
+        text: "To Date:"
+    MDTextField:
+        id: to_date_input
+        hint_text: "Enter to date (YYYY-MM-DD)"
+        on_focus: if self.focus: root.show_date_picker(self)
+
+    MDLabel:
+        text: "Export Format:"
+
+    BoxLayout:
+        orientation: 'vertical'
+        spacing: 0  # Vertical spacing between rows
+        size_hint_y: None
+        height: self.minimum_height  # Adjust height as needed
+
+        BoxLayout:
+            orientation: 'horizontal'
+            spacing: 10  # Spacing between checkbox and label
+            size_hint: None, None
+            size: self.minimum_size  # Ensure the BoxLayout takes minimum size
+            pos_hint: {"center_x": 0.5}  # Center horizontally
+
+            MDCheckbox:
+                id: pdf_checkbox_input
+                active: False
+                group: 'format'
+                size_hint: None, None
+                size: '48dp', '48dp'
+
+            MDLabel:
+                text: "PDF"
+                size_hint: None, None
+                size: '50dp', '48dp'
+                halign: 'center'
+                valign: 'middle'
+                text_size: self.size  # Ensure text fills the available space horizontally
+
+        BoxLayout:
+            orientation: 'horizontal'
+            spacing: 10  # Spacing between checkbox and label
+            size_hint: None, None
+            size: self.minimum_size  # Ensure the BoxLayout takes minimum size
+            pos_hint: {"center_x": 0.5}  # Center horizontally
+
+            MDCheckbox:
+                id: excel_checkbox_input
+                active: False
+                group: 'format'
+                size_hint: None, None
+                size: '48dp', '48dp'
+
+            MDLabel:
+                text: "Excel"
+                size_hint: None, None
+                size: '50dp', '48dp'
+                halign: 'center'
+                valign: 'middle'
+                text_size: self.size  # Ensure text fills the available space horizontally
+
+    # Centered BoxLayout for the button
+    BoxLayout:
+        orientation: 'horizontal'
+        size_hint_y: None
+        height: '60dp'
+        padding: [0, 0, 0, 5]  # Add bottom padding to provide space
+        spacing: 10
+        # Center horizontally within the parent layout
+        pos_hint: {"center_x": 0.5}
+        
+        Widget:  # Spacer to push the button to the center
+            size_hint_x: None
+            width: self.parent.width / 2 - 60  # Adjust according to the button size
+
+        MDRaisedButton:
+            text: "Export"
+            md_bg_color: [0.1, 0.5, 0.5, 1]
+            text_color: [1, 1, 1, 1]
+            on_release: root.export_report()
+
+        Widget:
+            size_hint_x: None
+            width: self.parent.width / 2 - 60 
+
+    MDLabel:
+        id: status_label_output
+        text: "Status: "
+        halign: "center"
+        theme_text_color: "Error"
